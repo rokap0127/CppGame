@@ -134,6 +134,7 @@ bool HelloWorld::init()
 
 	m_pProgram->updateUniforms();
 	error = glGetError();
+
 	Director::getInstance()->setClearColor(Color4F(0, 1, 0, 0));
 
     return true;
@@ -154,6 +155,17 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 }
 
 void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags) {
+	//äÆëSè„èëÇ´
+	//glBlendFunc(GL_ONE, GL_ZERO);
+	//// â¡éZçáê¨  
+	//glBlendFunc(GL_ONE, GL_ONE); 
+
+	//// å∏éZçáê¨ 
+	//glBlendEquation(GL_FUNC_REVERSE_SUBTRACT); 
+	//glBlendFunc(GL_ONE, GL_ONE);
+
+	// îºìßñæçáê¨  
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	GLenum error;
 
@@ -199,4 +211,6 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 0, pos);
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, color);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	glBlendEquation(GL_FUNC_ADD);
 }
