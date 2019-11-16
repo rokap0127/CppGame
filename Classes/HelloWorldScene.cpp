@@ -134,6 +134,7 @@ bool HelloWorld::init()
 
 	m_pProgram->updateUniforms();
 	error = glGetError();
+	Director::getInstance()->setClearColor(Color4F(0, 1, 0, 0));
 
     return true;
 }
@@ -191,9 +192,9 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 	pos[3].x += 0.1f; pos[3].y += 0.1f;
 
 	color[0] = Vec4(0, 0, 1, 1);
-	color[1] = Vec4(0, 0, 1, 1);
+	color[1] = Vec4(0, 0, 1, 0.5);
 	color[2] = Vec4(0, 0, 1, 1);
-	color[3] = Vec4(0, 0, 1, 1);
+	color[3] = Vec4(0, 0, 1, 0.5);
 
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 0, pos);
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, color);
