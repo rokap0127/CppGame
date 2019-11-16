@@ -159,7 +159,7 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 	m_pProgram->use();
 	error = glGetError();
 
-	Vec3 pos[6];
+	Vec3 pos[4];
 	const float x = 0.7f;
 	const float y = 0.7f;
 
@@ -167,12 +167,10 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 	pos[1] = Vec3(-x, y, 0);
 	pos[2] = Vec3(x, -y, 0);
 	pos[3] = Vec3(x, y, 0);
-	pos[4] = Vec3(x, -y, 0);
-	pos[5] = Vec3(-x, y, 0);
 
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT,GL_FALSE, 0, pos);
 	error = glGetError();
 
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawArrays(GL_QUAD_STRIP, 0, 4);
 	error = glGetError();
 }
