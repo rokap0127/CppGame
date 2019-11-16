@@ -197,18 +197,11 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	error = glGetError();
 
-	pos[0].x += 0.1f; 
-	pos[0].y += 0.1f; 
-	pos[1].x += 0.1f; pos[1].y += 0.1f; 
-	pos[2].x += 0.1f; pos[2].y += 0.1f; 
-	pos[3].x += 0.1f; pos[3].y += 0.1f;
-
-	color[0] = Vec4(0, 0, 1, 1);
+	color[0] = Vec4(0, 0, 1, 0.5);
 	color[1] = Vec4(0, 0, 1, 0.5);
-	color[2] = Vec4(0, 0, 1, 1);
+	color[2] = Vec4(0, 0, 1, 0.5);
 	color[3] = Vec4(0, 0, 1, 0.5);
 
-	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 0, pos);
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, color);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
