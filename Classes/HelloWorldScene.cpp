@@ -135,7 +135,7 @@ bool HelloWorld::init()
 	m_pProgram->updateUniforms();
 	error = glGetError();
 
-	Director::getInstance()->setClearColor(Color4F(0, 1, 0, 0));
+	Director::getInstance()->setClearColor(Color4F(0, 0, 0, 0));
 
     return true;
 }
@@ -181,15 +181,15 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 	const float x = 0.5f;
 	const float y = 0.5f;
 
-	pos[0] = Vec3(-x, -y, 0);
-	pos[1] = Vec3(-x, y, 0);
-	pos[2] = Vec3(x, -y, 0);
-	pos[3] = Vec3(x, y, 0);
+	pos[0] = Vec3(-x- 0.5f, -y - 0.5f, 0);
+	pos[1] = Vec3(-x - 0.5f, y - 0.5f, 0);
+	pos[2] = Vec3(x - 0.5f, -y - 0.5f, 0);
+	pos[3] = Vec3(x - 0.5f, y - 0.5f, 0);
 
-	color[0] = Vec4(1, 0, 0, 1);
-	color[1] = Vec4(1, 0, 0, 1);
-	color[2] = Vec4(1, 0, 0, 1);
-	color[3] = Vec4(1, 0, 0, 1);
+	color[0] = Vec4(1, 0, 0, 0.1f);
+	color[1] = Vec4(1, 0, 0, 0.1f);
+	color[2] = Vec4(1, 0, 0, 0.1f);
+	color[3] = Vec4(1, 0, 0, 0.1f);
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT,GL_FALSE, 0, pos);
 
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, color);
@@ -197,13 +197,15 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	error = glGetError();
 
-	color[0] = Vec4(0, 0, 1, 0.5);
-	color[1] = Vec4(0, 0, 1, 0.5);
-	color[2] = Vec4(0, 0, 1, 0.5);
-	color[3] = Vec4(0, 0, 1, 0.5);
+	for (int i = 0; i < 9; i++) {
 
-	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, color);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		pos[0].x += 0.1f; pos[0].y += 0.1f;
+		pos[1].x += 0.1f; pos[1].y += 0.1f;
+		pos[2].x += 0.1f; pos[2].y += 0.1f;
+		pos[3].x += 0.1f; pos[3].y += 0.1f;
 
+		glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 0, pos);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	}
 	glBlendEquation(GL_FUNC_ADD);
 }
