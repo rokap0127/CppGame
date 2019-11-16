@@ -115,6 +115,23 @@ bool HelloWorld::init()
         // add the sprite as a child to this layer
         this->addChild(sprite, 0);
     }
+
+	GLenum error;
+
+	m_pProgram = new GLProgram;
+
+	m_pProgram->initWithFilenames("shaders/shader_0tex.vsh", "shaders/shader_0tex.fsh");
+	error = glGetError();
+
+	m_pProgram->bindAttribLocation("a_position", GLProgram::VERTEX_ATTRIB_POSITION);
+	error = glGetError();
+
+	m_pProgram->link();
+	error = glGetError();
+
+	m_pProgram->updateUniforms();
+	error = glGetError();
+
     return true;
 }
 
@@ -130,4 +147,32 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
 
 
+}
+
+void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags) {
+
+	GLenum error;
+
+	GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION);
+	error = glGetError();
+
+	m_pProgram->use();
+	error = glGetError();
+
+	Vec3 pos[6];
+	const float x = 0.7f;
+	const float y = 0.7f;
+
+	pos[0] = Vec3(-x, -y, 0);
+	pos[1] = Vec3(-x, y, 0);
+	pos[2] = Vec3(x, -y, 0);
+	pos[3] = Vec3(x, y, 0);
+	pos[4] = Vec3(x, -y, 0);
+	pos[5] = Vec3(-x, y, 0);
+
+	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT,GL_FALSE, 0, pos);
+	error = glGetError();
+
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	error = glGetError();
 }
