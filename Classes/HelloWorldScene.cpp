@@ -126,6 +126,9 @@ bool HelloWorld::init()
 	m_pProgram->bindAttribLocation("a_position", GLProgram::VERTEX_ATTRIB_POSITION);
 	error = glGetError();
 
+	m_pProgram->bindAttribLocation("a_position", GLProgram::VERTEX_ATTRIB_POSITION);
+	error = glGetError();
+
 	m_pProgram->link();
 	error = glGetError();
 
@@ -153,26 +156,32 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 
 	GLenum error;
 
-	GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION);
+	GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR);
 	error = glGetError();
 
 	m_pProgram->use();
 	error = glGetError();
 
-	Vec3 pos[6];
-	const float x = 0.7f;
-	const float y = 0.7f;
+	Vec3 pos[4];
+	Vec3 color[4];
+
+	const float x = 0.5f;
+	const float y = 0.5f;
 
 	pos[0] = Vec3(-x, -y, 0);
 	pos[1] = Vec3(-x, y, 0);
 	pos[2] = Vec3(x, -y, 0);
 	pos[3] = Vec3(x, y, 0);
-	pos[4] = Vec3(x, -y, 0);
-	pos[5] = Vec3(-x, y, 0);
+	
+	color[0] = Vec3(0, 0, 0);
+	color[1] = Vec3(1, 0, 0);
+	color[2] = Vec3(0, 1, 0);
+	color[3] = Vec3(0, 0, 1);
 
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT,GL_FALSE, 0, pos);
-	error = glGetError();
 
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 3, GL_FLOAT, GL_FALSE, 0, color);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	error = glGetError();
 }
