@@ -45,6 +45,8 @@ public:
 		uint32_t flags);
 	//•Ï”éŒ¾
 	cocos2d::GLProgram* m_pProgram;
+
+	int counter = 0;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
