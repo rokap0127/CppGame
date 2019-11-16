@@ -171,6 +171,6 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT,GL_FALSE, 0, pos);
 	error = glGetError();
 
-	glDrawArrays(GL_QUAD_STRIP, 0, 4);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	error = glGetError();
 }
