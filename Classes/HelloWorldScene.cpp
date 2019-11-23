@@ -113,29 +113,44 @@ bool HelloWorld::init()
         sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
         // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
+        /*this->addChild(sprite, 0);*/
     }
 
 	GLenum error;
 
 	m_pProgram = new GLProgram;
+	//シェーーダをテキストファイルから読み込んでコンパイル
 
-	m_pProgram->initWithFilenames("shaders/shader_0tex.vsh", "shaders/shader_0tex.fsh");
+	m_pProgram->initWithFilenames("shaders/shader_1tex.vsh", "shaders/shader_1tex.fsh");
 	error = glGetError();
 
+	//attribute変数に属性インデックスを割り振る
 	m_pProgram->bindAttribLocation("a_position", GLProgram::VERTEX_ATTRIB_POSITION);
 	error = glGetError();
 
-	m_pProgram->bindAttribLocation("a_position", GLProgram::VERTEX_ATTRIB_POSITION);
+	//attribute変数に属性インデックスを割り振る
+	m_pProgram->bindAttribLocation("a_color", GLProgram::VERTEX_ATTRIB_COLOR);
 	error = glGetError();
 
+	//attribute変数に属性インデックスを割り振る
+	m_pProgram->bindAttribLocation("a_texCoord", GLProgram::VERTEX_ATTRIB_TEX_COORD);
+	error = glGetError();
+
+	//シェーダをリンク
 	m_pProgram->link();
 	error = glGetError();
 
+	//uniform変数のリストを保存
 	m_pProgram->updateUniforms();
 	error = glGetError();
 
-	Director::getInstance()->setClearColor(Color4F(0, 0, 0, 0));
+	//uniform変数の番号を取得
+	uniform_sampler = glGetUniformLocation(m_pProgram->getProgram(), "sampler");
+
+	//テクスチャ読み込み
+	m_pTexture = Director::getInstance()->getTextureCache()->addImage("kame.png");
+
+	/*Director::getInstance()->setClearColor(Color4F(0, 0, 0, 0));*/
 
     return true;
 }
@@ -155,57 +170,50 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 }
 
 void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags) {
-	//完全上書き
-	//glBlendFunc(GL_ONE, GL_ZERO);
-	//// 加算合成  
-	//glBlendFunc(GL_ONE, GL_ONE); 
-
-	//// 減算合成 
-	//glBlendEquation(GL_FUNC_REVERSE_SUBTRACT); 
-	//glBlendFunc(GL_ONE, GL_ONE);
-
-	// 半透明合成  
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	GLenum error;
 
-	GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR);
+	//指定したフラグに対応する属性インデックスだけ有効にして、他は無効にする
+	GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR
+	| GL::VERTEX_ATTRIB_FLAG_TEX_COORD);
 	error = glGetError();
-
+	//シェーダを有効にする
 	m_pProgram->use();
 	error = glGetError();
 
 	Vec3 pos[4];
 	Vec4 color[4];
+	Vec2 uv[4];
 
 	const float x = 0.5f;
 	const float y = 0.5f;
 
-	pos[0] = Vec3(-x- 0.5f, -y - 0.5f, 0);
-	pos[1] = Vec3(-x - 0.5f, y - 0.5f, 0);
-	pos[2] = Vec3(x - 0.5f, -y - 0.5f, 0);
-	pos[3] = Vec3(x - 0.5f, y - 0.5f, 0);
+	pos[0] = Vec3(-x, -y, 0);
+	pos[1] = Vec3(-x, y, 0);
+	pos[2] = Vec3(x, -y, 0);
+	pos[3] = Vec3(x, y, 0);
 
-	color[0] = Vec4(1, 0, 0, 0.1f);
-	color[1] = Vec4(1, 0, 0, 0.1f);
-	color[2] = Vec4(1, 0, 0, 0.1f);
-	color[3] = Vec4(1, 0, 0, 0.1f);
+	color[0] = Vec4(1, 1, 1, 1);
+	color[1] = Vec4(1, 1, 1, 1);
+	color[2] = Vec4(1, 1, 1, 1);
+	color[3] = Vec4(1, 1, 1, 1);
+
+	uv[0] = Vec2(0, 1);
+	uv[1] = Vec2(0, 0);
+	uv[2] = Vec2(1, 1);
+	uv[3] = Vec2(1, 0);
+
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT,GL_FALSE, 0, pos);
 
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, color);
 
+	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, 0, uv);
+
+	glUniform1i(uniform_sampler, 0);
+
+	GL::bindTexture2D(m_pTexture->getName());
+
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	error = glGetError();
 
-	for (int i = 0; i < 9; i++) {
-
-		pos[0].x += 0.1f; pos[0].y += 0.1f;
-		pos[1].x += 0.1f; pos[1].y += 0.1f;
-		pos[2].x += 0.1f; pos[2].y += 0.1f;
-		pos[3].x += 0.1f; pos[3].y += 0.1f;
-
-		glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, 0, pos);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	}
-	glBlendEquation(GL_FUNC_ADD);
 }

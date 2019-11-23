@@ -45,6 +45,10 @@ public:
 		uint32_t flags);
 	//•Ï”éŒ¾
 	cocos2d::GLProgram* m_pProgram;
+	cocos2d::Texture2D* m_pTexture;
+	int uniform_sampler;
+
+	int counter = 0;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
