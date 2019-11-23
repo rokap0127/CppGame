@@ -204,9 +204,7 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 	uv[3] = Vec2(1, 0);
 
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT,GL_FALSE, 0, pos);
-
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, color);
-
 	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORD, 2, GL_FLOAT, GL_FALSE, 0, uv);
 
 	glUniform1i(uniform_sampler, 0);
