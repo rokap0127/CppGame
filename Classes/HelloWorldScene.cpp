@@ -190,7 +190,7 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 		4, GL_FLOAT, GL_FALSE, 0, color);
 
 	static float yaw = 0.0f;
-	yaw += 0.01f;
+	yaw += CC_DEGREES_TO_RADIANS(3.0f);
 	Mat4 matProjection;
 	Mat4 matView;
 	Mat4 matWVP;
@@ -205,7 +205,9 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 
 	Mat4::createRotationY(yaw, &matRot);
 
-	Mat4::createScale(Vec3(1, 1, 1), &matScale);
+	float scale = sinf(yaw) + 2.0f;
+
+	Mat4::createScale(Vec3(scale, scale, scale), &matScale);
 
 
 	matWorld = matTrans * matRot * matScale;
