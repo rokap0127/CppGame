@@ -173,11 +173,12 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 
 	const float x = 50.0f;
 	const float y = 50.0f;
+	const float z = 50.0f;
 
-	pos[0] = Vec3(-x,-y, 0);
-	pos[1] = Vec3(-x, y, 0);
-	pos[2] = Vec3(x, -y , 0);
-	pos[3] = Vec3(x , y, 0);
+	pos[0] = Vec3(-x,-y, z);
+	pos[1] = Vec3(-x, y, z);
+	pos[2] = Vec3(x, -y , z);
+	pos[3] = Vec3(x , y, z);
 
 	color[0] = Vec4(1, 0, 0, 1);
 	color[1] = Vec4(1, 0, 0, 1);
@@ -205,7 +206,8 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 
 	Mat4::createRotationY(yaw, &matRot);
 
-	float scale = sinf(yaw) + 2.0f;
+	/*float scale = sinf(yaw) + 2.0f;*/
+	float scale = 1.0f;
 
 	Mat4::createScale(Vec3(scale, scale, scale), &matScale);
 
@@ -219,5 +221,31 @@ void HelloWorld::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	error = glGetError();
+
+	pos[0] = Vec3(-x, -y, -z);
+	pos[1] = Vec3(-x, y, -z);
+	pos[2] = Vec3(x, -y, -z);
+	pos[3] = Vec3(x, y, -z);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	error = glGetError();
+
+	pos[0] = Vec3(-x ,-y, -z);
+	pos[1] = Vec3(-x ,-y, z);
+	pos[2] = Vec3(-x ,y, -z);
+	pos[3] = Vec3(-x ,y, z);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	error = glGetError();
+
+	pos[0] = Vec3(x, -y, -z);
+	pos[1] = Vec3(x, -y, z);
+	pos[2] = Vec3(x, y, -z);
+	pos[3] = Vec3(x, y, z);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	error = glGetError();
+
+
 
 }
