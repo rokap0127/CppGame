@@ -22,13 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#include "HelloWorldScene.h"
+#include "ShaderNode.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool ShaderNode::init()
 {
 	//////////////////////////////
 	// 1. super init first
@@ -61,11 +61,11 @@ bool HelloWorld::init()
 	return true;
 }
 
-void HelloWorld::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
+void ShaderNode::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
 {
 	// onDrawをカスタムコマンドとして予約
 	_customCommand.init(_globalZOrder, transform, flags);
-	_customCommand.func = CC_CALLBACK_0(HelloWorld::onDraw, this, transform, flags);
+	_customCommand.func = CC_CALLBACK_0(ShaderNode::onDraw, this, transform, flags);
 	renderer->addCommand(&_customCommand);
 
 	const float x = 50.0f;
@@ -117,7 +117,7 @@ void HelloWorld::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
 	matWVP = matProjection * matView * matWorld;
 }
 
-void HelloWorld::onDraw(const Mat4& transform, uint32_t /*flags*/)
+void ShaderNode::onDraw(const Mat4& transform, uint32_t /*flags*/)
 {
 	// 半透明合成
 	GL::blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -142,7 +142,7 @@ void HelloWorld::onDraw(const Mat4& transform, uint32_t /*flags*/)
 	//glBlendEquation(GL_FUNC_ADD);
 }
 
-void HelloWorld::menuCloseCallback(Ref* pSender)
+void ShaderNode::menuCloseCallback(Ref* pSender)
 {
 	//Close the cocos2d-x game scene and quit the application
 	Director::getInstance()->end();

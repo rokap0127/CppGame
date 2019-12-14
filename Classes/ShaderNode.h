@@ -27,7 +27,7 @@
 
 #include "cocos2d.h"
 
-class HelloWorld : public cocos2d::Node
+class ShaderNode : public cocos2d::Node
 {
 public:
 	virtual bool init();
@@ -36,7 +36,7 @@ public:
 	void menuCloseCallback(cocos2d::Ref* pSender);
 
 	// implement the "static create()" method manually
-	CREATE_FUNC(HelloWorld);
+	CREATE_FUNC(ShaderNode);
 	// ä÷êîêÈåæ
 	void draw(cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags);
 	void onDraw(const cocos2d::Mat4& transform, uint32_t /*flags*/);
