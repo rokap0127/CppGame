@@ -27,27 +27,36 @@
 
 #include "cocos2d.h"
 
-class HelloWorld : public cocos2d::Scene
+class HelloWorld : public cocos2d::Node
 {
 public:
-    static cocos2d::Scene* createScene();
+	virtual bool init();
 
-    virtual bool init();
-    
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
-    // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+	// a selector callback
+	void menuCloseCallback(cocos2d::Ref* pSender);
 
-	//関数宣言
-	void draw(cocos2d::Renderer * renderer, const cocos2d::Mat4& transform,
-		uint32_t flags);
-	//変数宣言
+	// implement the "static create()" method manually
+	CREATE_FUNC(HelloWorld);
+	// 関数宣言
+	void draw(cocos2d::Renderer* renderer, const cocos2d::Mat4& transform, uint32_t flags);
+	void onDraw(const cocos2d::Mat4& transform, uint32_t /*flags*/);
+	// 変数宣言
 	cocos2d::GLProgram* m_pProgram;
-	cocos2d::Texture2D* m_pTexture;
-	int uniform_sampler;
+
+	//int uniform_sampler;
+	//cocos2d::Texture2D* m_pTexture;
+
 	int uniform_wvp_matrix;
+
+	int counter = 0;
+
+	// カスタムコマンド
+	cocos2d::CustomCommand _customCommand;
+
+	cocos2d::Vec3 pos[6];
+	cocos2d::Vec4 color[6];
+	cocos2d::Vec2 uv[6];
+	cocos2d::Mat4 matWVP;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
