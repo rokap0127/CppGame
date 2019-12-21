@@ -68,21 +68,18 @@ void ShaderNode::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
 	_customCommand.func = CC_CALLBACK_0(ShaderNode::onDraw, this, transform, flags);
 	renderer->addCommand(&_customCommand);
 
-	const float x = 50.0f;
-	const float y = 50.0f;
-	const float z = 50.0f;
-
+	Size size = getContentSize();
 	// 座標
-	pos[0] = Vec3(-x, -y, 0); // 左下
-	pos[1] = Vec3(-x, y, 0); // 左上
-	pos[2] = Vec3(x, -y, 0); // 右下
-	pos[3] = Vec3(x, y, 0);   // 右上
+	pos[0] = Vec3(-size.width / 2.0f, -size.height / 2.0f, 0); // 左下
+	pos[1] = Vec3(-size.width / 2.0f, +size.height / 2.0f, 0); // 左上
+	pos[2] = Vec3(+size.width / 2.0f, -size.height / 2.0f, 0); // 右下
+	pos[3] = Vec3(+size.width / 2.0f, +size.height / 2.0f, 0);   // 右上
 
-							  // 色
-	color[0] = Vec4(1, 0, 0, 1);
-	color[1] = Vec4(1, 0, 0, 1);
-	color[2] = Vec4(1, 0, 0, 1);
-	color[3] = Vec4(1, 0, 0, 1);
+																 // 色
+	color[0] = Vec4(_realColor.r / 255.0f, _realColor.g / 255.0f, _realColor.b / 255.0f, _realOpacity / 255.0f);
+	color[1] = Vec4(_realColor.r / 255.0f, _realColor.g / 255.0f, _realColor.b / 255.0f, _realOpacity / 255.0f);
+	color[2] = Vec4(_realColor.r / 255.0f, _realColor.g / 255.0f, _realColor.b / 255.0f, _realOpacity / 255.0f);
+	color[3] = Vec4(_realColor.r / 255.0f, _realColor.g / 255.0f, _realColor.b / 255.0f, _realOpacity / 255.0f);
 
 	// 各頂点にUVを割り当て
 	uv[0] = Vec2(0, 1); // 左下
@@ -90,35 +87,22 @@ void ShaderNode::draw(Renderer* renderer, const Mat4& transform, uint32_t flags)
 	uv[2] = Vec2(1, 1); // 右下
 	uv[3] = Vec2(1, 0); // 右上
 
-	static float yaw = 0.0f;
-	//yaw += CC_RADIANS_TO_DEGREES(1.0f);
-	yaw += CC_DEGREES_TO_RADIANS(5.0f);
+						// 行列計算
 	Mat4 matProjection;
-	Mat4 matView;
-
-	Mat4 matTrans, matScale, matRot, matWorld;
-	Mat4 matRotX, matRotY, matRotZ;
 
 	matProjection = _director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
-	matView = _director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
-
-	Mat4::createTranslation(Vec3(1280 / 2.0f, 720 / 2.0f, 0), &matTrans);
-	Mat4::createRotationZ(0, &matRotZ);
-	Mat4::createRotationX(0, &matRotX);
-	Mat4::createRotationY(yaw, &matRotY);
-	// オイラー角回転の合成
-	matRot = matRotY * matRotX * matRotZ;
-	// 1～3倍で循環
-	//float scale = sinf(yaw)+2.0f;
-	float scale = 2.0f;
-	Mat4::createScale(Vec3(scale, scale, scale), &matScale);
-	matWorld = matTrans * matRot * matScale;
-
-	matWVP = matProjection * matView * matWorld;
+	matWVP = matProjection * transform;
 }
 
 void ShaderNode::onDraw(const Mat4& transform, uint32_t /*flags*/)
 {
+	Mat4 matMVP;
+	Mat4 matProjection;
+
+	matProjection = _director->getMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
+
+	matMVP = matProjection * transform;
+
 	// 半透明合成
 	GL::blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
