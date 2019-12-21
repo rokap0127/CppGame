@@ -41,7 +41,7 @@ bool ShaderNode::init()
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	m_pProgram = new GLProgram;
-	m_pProgram->initWithFilenames("shaders/shader_0tex.vsh", "shaders/shader_0tex.fsh");
+	m_pProgram->initWithFilenames("shaders/flower.vsh", "shaders/flower.fsh");
 	m_pProgram->bindAttribLocation("a_position", GLProgram::VERTEX_ATTRIB_POSITION);
 	m_pProgram->bindAttribLocation("a_color", GLProgram::VERTEX_ATTRIB_COLOR);
 	//m_pProgram->bindAttribLocation("a_texCoord", GLProgram::VERTEX_ATTRIB_TEX_COORD);
