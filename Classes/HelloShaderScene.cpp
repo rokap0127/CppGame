@@ -70,18 +70,17 @@ bool HelloShader::init()
 	Director::getInstance()->setClearColor(Color4F(0.0f, 1.0f, 0.0f, 0.0f));
 
 	/* Cocos‚ÌƒƒSƒXƒvƒ‰ƒCƒg‚ðì¬B•`‰æ—Dæ‚Í0*/
-	sprite = Sprite::create("HelloWorld.png");
-	sprite->setColor(Color3B(0xff, 0x00, 0x00));
-	sprite->setScale(2.0f);
-	sprite->setPosition(Vec2(visibleSize.width/2 + origin.x + 200, visibleSize.height/2 + origin.y));
-	this->addChild(sprite, 2);
+	//sprite = Sprite::create("HelloWorld.png");
+	//sprite->setColor(Color3B(0xff, 0x00, 0x00));
+	//sprite->setScale(2.0f);
+	//sprite->setPosition(Vec2(visibleSize.width/2 + origin.x + 200, visibleSize.height/2 + origin.y));
+	//this->addChild(sprite, 2);
 
 	// HelloWorld‚ÌƒŒƒCƒ„[‚ðì¬B•`‰æ—Dæ‚Í1
 	node = ShaderNode::create();
 	this->addChild(node, 1);
-	node->setPosition(Vec2(1024 / 2 + 100, 768 / 2));
-	node->setContentSize(Size(500, 200));
-	node->setOpacity(128);
+	node->setPosition(Vec2(1024 / 2, 768 / 2));
+	node->setContentSize(Size(1280, 100));
 
 	EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = CC_CALLBACK_2(HelloShader::onTouchBegan, this);
