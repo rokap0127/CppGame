@@ -24,4 +24,5 @@ public:
 	cocos2d::CustomCommand _customCommand;
 
 	cocos2d::Node* node;
+
 };
