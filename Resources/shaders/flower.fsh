@@ -11,27 +11,9 @@ void main(){
 		// {-250～+250}
 		vec2 p = gl_FragCoord.xy - center;
 		float col;
+		float col2;
 
-		//pベクトルの長さ
-		//float len = length(p);
-		//col = len / size_div2.x;
-		
-		// {-1.0～+1.0}
-		//col = p / size_div2;
-
-		//絶対値{+1.0～0.0～+1.0}
-		//col = abs(col);
-
-		//白黒反転{0.0～+1.0～0.0}
-		//col = 1.0f - col;
-
-		//大きさを無視して取り出す
-		//col = sign(col);
-
-		//0より大きければ1にする
-		//col = step(0.1, col);
-
-		//x軸からの角度を求める{-3.14～3.14}
+			//x軸からの角度を求める{-3.14～3.14}
 		float angle = atan(p.y, p.x);
 		angle = abs(angle);
 
@@ -42,12 +24,20 @@ void main(){
 		//30度で塗り分け
 		col = step(1.0 / 6.0 , col);
 
+		//pベクトルの長さ
+		float len = length(p);
+		col2 = len / size_div2.x;
+		
+		//反転{0.0～+1.0～0.0}
+		col2 = 1.0f - col2;
 
+		//大きさを無視して取り出す
+		col2 = sign(col2);
 
 		//色を決定
         //gl_FragColor = vec4(col, col, col, 1);
 
-		gl_FragColor = vec4(1, 1, 1, col);
+		gl_FragColor = vec4(1, 1, 0, col * col2);
 
         //シェーダの出力にRGBAでカラーを設定
         gl_FragColor *= v_color;
