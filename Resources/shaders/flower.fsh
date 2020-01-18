@@ -4,6 +4,8 @@ varying vec4 v_color; //（入力）色
 uniform vec2 center;
 //（入力）図形の幅の高さの半分
 uniform vec2 size_div2;
+//(入力) 経過時間
+uniform float time;
 
 void main(){
 
@@ -11,33 +13,11 @@ void main(){
 		// {-250～+250}
 		vec2 p = gl_FragCoord.xy - center;
 		float col;
-		float col2;
 
-			//x軸からの角度を求める{-3.14～3.14}
-		float angle = atan(p.y, p.x);
-		angle = abs(angle);
-
-		//度数法に変換{-180 ～ 180}
-		float deg = degrees(angle);
-
-		col = deg / 180;
-		//30度で塗り分け
-		col = step(1.0 / 6.0 , col);
-
-		//pベクトルの長さ
-		float len = length(p);
-		col2 = len / size_div2.x;
-		
-		//反転{0.0～+1.0～0.0}
-		col2 = 1.0f - col2;
-
-		//大きさを無視して取り出す
-		col2 = sign(col2);
+		col = time / 5;
 
 		//色を決定
-        //gl_FragColor = vec4(col, col, col, 1);
-
-		gl_FragColor = vec4(1, 1, 0, col * col2);
+        gl_FragColor = vec4(col, col, col, 1);
 
         //シェーダの出力にRGBAでカラーを設定
         gl_FragColor *= v_color;

@@ -49,8 +49,10 @@ public:
 	int uniform_wvp_matrix;
 	int uniform_center;
 	int uniform_size_div2;
+	int uniform_time;
 
 	int counter = 0;
+	float m_time;
 
 	// カスタムコマンド
 	cocos2d::CustomCommand _customCommand;
