@@ -23,7 +23,7 @@ void main(){
 		//col = abs(col);
 
 		//白黒反転{0.0～+1.0～0.0}
-		col = 1.0f - col;
+		//col = 1.0f - col;
 
 		//大きさを無視して取り出す
 		//col = sign(col);
@@ -33,14 +33,21 @@ void main(){
 
 		//x軸からの角度を求める{-3.14～3.14}
 		float angle = atan(p.y, p.x);
+		angle = abs(angle);
 
 		//度数法に変換{-180 ～ 180}
 		float deg = degrees(angle);
 
 		col = deg / 180;
+		//30度で塗り分け
+		col = step(1.0 / 6.0 , col);
 
 
-        gl_FragColor = vec4(col, col, col, 1);
+
+		//色を決定
+        //gl_FragColor = vec4(col, col, col, 1);
+
+		gl_FragColor = vec4(1, 1, 1, col);
 
         //シェーダの出力にRGBAでカラーを設定
         gl_FragColor *= v_color;
