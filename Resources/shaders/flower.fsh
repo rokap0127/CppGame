@@ -13,19 +13,32 @@ void main(){
 		float col;
 
 		//pƒxƒNƒgƒ‹‚Ì’·‚³
-		float len = length(p);
-		
-		col = len / size_div2.x;
+		//float len = length(p);
+		//col = len / size_div2.x;
 		
 		// {-1.0`+1.0}
 		//col = p / size_div2;
-
 
 		//â‘Î’l{+1.0`0.0`+1.0}
 		//col = abs(col);
 
 		//”’•”½“]{0.0`+1.0`0.0}
 		col = 1.0f - col;
+
+		//‘å‚«‚³‚ğ–³‹‚µ‚Äæ‚èo‚·
+		//col = sign(col);
+
+		//0‚æ‚è‘å‚«‚¯‚ê‚Î1‚É‚·‚é
+		//col = step(0.1, col);
+
+		//x²‚©‚ç‚ÌŠp“x‚ğ‹‚ß‚é{-3.14`3.14}
+		float angle = atan(p.y, p.x);
+
+		//“x”–@‚É•ÏŠ·{-180 ` 180}
+		float deg = degrees(angle);
+
+		col = deg / 180;
+
 
         gl_FragColor = vec4(col, col, col, 1);
 
