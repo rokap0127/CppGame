@@ -48,6 +48,7 @@ public:
 
 	int uniform_wvp_matrix;
 	int uniform_center;
+	int uniform_size;
 
 	int counter = 0;
 

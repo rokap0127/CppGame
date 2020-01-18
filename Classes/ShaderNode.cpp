@@ -54,9 +54,10 @@ bool ShaderNode::init()
 	//m_pTexture = Director::getInstance()->getTextureCache()->addImage("texture.jpg");
 
 	uniform_wvp_matrix = glGetUniformLocation(m_pProgram->getProgram(), "u_wvp_matrix");
-	int uniform_center = glGetUniformLocation(m_pProgram->getProgram(), "center");
+	uniform_center = glGetUniformLocation(m_pProgram->getProgram(), "center");
+	uniform_size = glGetUniformLocation(m_pProgram->getProgram(), "size");
 
-	Director::getInstance()->setClearColor(Color4F(0, 1, 0, 0));
+	//Director::getInstance()->setClearColor(Color4F(0.5, 0.5, 0.5, 0));
 	//Director::getInstance()->setClearColor(Color4F(1, 1, 1, 0));
 
 	return true;
@@ -122,6 +123,9 @@ void ShaderNode::onDraw(const Mat4& transform, uint32_t /*flags*/)
 	glUniformMatrix4fv(uniform_wvp_matrix, 1, GL_FALSE, matWVP.m);
 	Vec2 center = getPosition();
 	glUniform2f(uniform_center, center.x, center.y);
+	Vec2 size = getContentSize();
+	glUniform2f(uniform_center, size.x, size.y);
+
 	// •`‰æ
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
