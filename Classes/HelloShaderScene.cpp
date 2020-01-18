@@ -80,7 +80,7 @@ bool HelloShader::init()
 	node = ShaderNode::create();
 	this->addChild(node, 1);
 	node->setPosition(Vec2(640, 360));
-	node->setContentSize(Size(1000, 500));
+	node->setContentSize(Size(500, 500));
 
 	EventListenerTouchOneByOne* listener = EventListenerTouchOneByOne::create();
 	listener->onTouchBegan = CC_CALLBACK_2(HelloShader::onTouchBegan, this);
