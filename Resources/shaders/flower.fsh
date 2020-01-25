@@ -7,34 +7,34 @@ uniform vec2 size_div2;
 //(入力) 経過時間
 uniform float time;
 
+//0より大きければ1を返す
+//sign関数に近いが、マイナス時も0を返す。
+float u( float x ) { return (x>0.0)?1.0:0.0; }
+
 void main(){
-
-		// 描画ピクセルの座標と図形の中心座標の差を計算
-	// {-250～+250}
-	vec2 p = gl_FragCoord.xy - center;
-	// {-1.0～+1.0}
-	p /= size_div2.x;
-
-	// 中心からの角度{-3.14～+3.14}
-	float angle = atan(p.y, p.x);
-
-	float col;
-
-	// 中心からの距離 {0.0～1.0}
-	float len = length(p);
-
-	// 白黒反転 {0.0～1.0}
-	col = 1 - len;
-
-	// 時間による変化 {0.0～1.0}
-	//float s = sin(sin(time*3.14)+3.14/2.0) / 2.0 + 0.5;
-	float s = cos(sin(time*3.14)) / 2.0 + 0.5;
-
-	// sinカーブによる影響を反映
-	col = col * s;
-
-	gl_FragColor = vec4(col,col,col,1);
-
-	// 外部から指定された色を乗算
-	gl_FragColor *= v_color;
+// ノードの中心位置から見た、描画ピクセルの座標
+vec2 p = gl_FragCoord.xy - center;
+// X,Yともに-1～+1の範囲に。
+p /= size_div2;
+// a: 中心からの角度
+float a = atan(p.x,p.y);
+// r: 中心からの距離
+float r = length(p);
+// w: 中心からの距離と時間でのゆらぎ。-1～+1の範囲。
+float w = cos( 3.1415927*time - r*2.0);
+// h: 角度、中心距離と時間でのゆらぎ。0～+1の範囲に。
+float h = 0.5 + 0.5*cos(12.0*a - w*7.0 + r*8.0);
+// d: もうなんか色々。0.25～+1.0の範囲に。
+float d = 0.25 + 0.75*pow(h,1.0*r)*(0.7 + 0.3*w);
+// dがrより大きいときだけ色が出る。
+float col = u( d-r ) * sqrt(1.0-r/d)*r*2.5;
+// もうわけがわからない。
+col *= 1.25+0.25*cos((12.0*a-w*7.0+r*8.0)/2.0);
+col *= 1.0 - 0.35*(0.5+0.5*sin(r*30.0))*(0.5+0.5*cos(12.0*a-w*7.0+r*8.0));
+// hを使って、RGBそれぞれに、角度、中心距離でのずれをだしている。
+gl_FragColor = vec4(
+col,
+col-h*0.5+r*.2 + 0.35*h*(1.0-r),
+col-h*r + 0.1*h*(1.0-r),
+1.0);
 }
